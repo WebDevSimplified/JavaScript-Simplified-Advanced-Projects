@@ -5,17 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link href="styles.css" rel="stylesheet">
-  <script src="script.js" type="module"></script>
   <title>Calculator</title>
 </head>
 <body>
   <div class="calculator-grid">
     <div class="output">
       <div class="history">
-        <div data-previous-operand class="previous-operand">123124</div>
-        <div data-operation>+</div>
+        <div data-secondary-operand class="secondary-operand"></div>
+        <div data-operation></div>
       </div>
-      <div data-current-operand class="current-operand">234</div>
+      <div data-primary-operand class="primary-operand"></div>
     </div>
     <button data-all-clear class="span-two">AC</button>
     <button data-delete>DEL</button>

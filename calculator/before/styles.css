@@ -53,11 +53,11 @@ body {
   display: flex;
 }
 
-.output .previous-operand {
+.output .secondary-operand {
   margin-right: 7px;
 }
 
-.output .current-operand {
+.output .primary-operand {
   color: white;
   font-size: 2.5rem;
 }
