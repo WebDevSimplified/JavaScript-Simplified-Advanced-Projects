@@ -1,9 +1,3 @@
-// function parse(equation) {
-//   const step = getNextStep()
-//   const result = solve(step)
-//   replaceNextStep(equation, step, result)
-// }
-
 const inputElement = document.getElementById("equation")
 const outputElement = document.getElementById("results")
 const form = document.getElementById("equation-form")

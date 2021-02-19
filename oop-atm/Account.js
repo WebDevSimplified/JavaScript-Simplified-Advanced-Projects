@@ -8,8 +8,35 @@ module.exports = class Account {
   #name
   #balance
 
-  static async find(name) {
-    const account = new Account(name)
+  get name() {
+    return this.#name
+  }
+
+  get balance() {
+    return this.#balance
+  }
+
+  get filePath() {
+    return `accounts/${this.name}.txt`
+  }
+
+  async #load() {
+    this.#balance = parseFloat(await FileSystem.read(this.filePath))
+  }
+
+  async withdraw(amount) {
+    if (this.balance < amount) throw new Error()
+    await FileSystem.write(this.filePath, this.#balance - amount)
+    this.#balance = this.#balance - amount
+  }
+
+  async deposit(amount) {
+    await FileSystem.write(this.filePath, this.#balance + amount)
+    this.#balance = this.#balance + amount
+  }
+
+  static async find(accountName) {
+    const account = new Account(accountName)
 
     try {
       await account.#load()
@@ -19,33 +46,12 @@ module.exports = class Account {
     }
   }
 
-  static async create(name) {
-    const account = new Account(name)
+  static async create(accountName) {
+    const account = new Account(accountName)
+
     await FileSystem.write(account.filePath, 0)
-    await account.#load()
+    account.#balance = 0
+
     return account
-  }
-
-  get filePath() {
-    return `accounts/${this.#name}.txt`
-  }
-
-  get balance() {
-    return this.#balance
-  }
-
-  async #load() {
-    this.#balance = parseFloat(await FileSystem.read(this.filePath))
-  }
-
-  async deposit(amount) {
-    await FileSystem.write(this.filePath, this.#balance + amount)
-    this.#balance = this.#balance + amount
-  }
-
-  async withdraw(amount) {
-    if (this.#balance < amount) throw new Error()
-    await FileSystem.write(this.filePath, this.#balance - amount)
-    this.#balance = this.#balance - amount
   }
 }
