@@ -1,36 +1,30 @@
+// function parse(equation) {
+//   const step = getNextStep()
+//   const result = solve(step)
+//   replaceNextStep(equation, step, result)
+// }
+
 const inputElement = document.getElementById("equation")
 const outputElement = document.getElementById("results")
 const form = document.getElementById("equation-form")
-// Gets the content inside the first inner most parenthesis
-// Input: 2 * (3 - 4) ^ 5
-// Matches: 3 - 4
+
 const PARENTHESIS_REGEX = /\((?<equation>[^\(\)]*)\)/
-// Grabs the first exponent operation
-// Input: 2 + 3 ^ 4 - 5
-// Matches: 3 ^ 4
+const MULTIPLY_DIVIDE_REGEX = /(?<operand1>\S+)\s*(?<operation>[\/\*])\s*(?<operand2>\S+)/
 const EXPONENT_REGEX = /(?<operand1>\S+)\s*(?<operation>\^)\s*(?<operand2>\S+)/
-// Grabs the first multiply or divide operation
-// Input: 2 + 3 * 4 - 5
-// Matches: 3 * 4
-const MULTIPLY_DIVIDE_REGEX = /(?<operand1>\S+)\s*(?<operation>[\*\/])\s*(?<operand2>\S+)/
-// Grabs the first add or subtract operation
-// Input: 2 + 3 * 4 - 5
-// Matches: 2 + 3
-const ADD_SUBTRACT_REGEX = /(?<operand1>\S+)\s*(?<operation>(?<!e)[\+\-])\s*(?<operand2>\S+)/
+const ADD_SUBTRACT_REGEX = /(?<operand1>\S+)\s*(?<operation>(?<!e)[\-\+])\s*(?<operand2>\S+)/
 
 form.addEventListener("submit", e => {
   e.preventDefault()
 
-  outputElement.innerText = parse(inputElement.value.trim())
+  const result = parse(inputElement.value)
+  outputElement.textContent = result
 })
 
-// Make sure to test really large/small numbers to deal with +e/-e
-// Make sure to test negative numbers
-// Make sure to test floating point numbers
 function parse(equation) {
   if (equation.match(PARENTHESIS_REGEX)) {
     const subEquation = equation.match(PARENTHESIS_REGEX).groups.equation
-    const newEquation = equation.replace(PARENTHESIS_REGEX, parse(subEquation))
+    const result = parse(subEquation)
+    const newEquation = equation.replace(PARENTHESIS_REGEX, result)
     return parse(newEquation)
   } else if (equation.match(EXPONENT_REGEX)) {
     const result = handleMath(equation.match(EXPONENT_REGEX).groups)
