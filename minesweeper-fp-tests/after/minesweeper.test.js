@@ -4,6 +4,7 @@ import {
   createBoard,
   markedTilesCount,
   markTile,
+  positionMatch,
   revealTile,
   TILE_STATUSES,
 } from "./minesweeper"
@@ -389,5 +390,19 @@ describe("#checkLose", () => {
     ]
 
     expect(checkLose(board)).toBe(true)
+  })
+})
+
+describe("#positionMatch", () => {
+  test("it returns true when the x and y properties are the same", () => {
+    const posA = { x: 1, y: 1 }
+    const posB = { x: 1, y: 1 }
+    expect(positionMatch(posA, posB)).toBe(true)
+  })
+
+  test("it returns true when the x or y properties are not the same", () => {
+    const posA = { x: 0, y: 1 }
+    const posB = { x: 1, y: 1 }
+    expect(positionMatch(posA, posB)).toBe(false)
   })
 })

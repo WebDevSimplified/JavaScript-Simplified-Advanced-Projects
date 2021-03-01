@@ -6,12 +6,17 @@ import {
   checkWin,
   checkLose,
   markedTilesCount,
+  positionMatch,
 } from "./minesweeper.js"
 
-const BOARD_SIZE = 10
-const NUMBER_OF_MINES = 3
+let testBoard
+if (process.env.NODE_ENV !== "production" && window.testBoard) {
+  testBoard = window.testBoard
+}
+const BOARD_SIZE = testBoard?.length ?? 10
+const NUMBER_OF_MINES = testBoard?.flat().filter(t => t.mine).length ?? 3
 
-let board = createBoard(BOARD_SIZE, getMinePositions())
+let board = testBoard ?? createBoard(BOARD_SIZE, getMinePositions())
 
 const boardElement = document.querySelector(".board")
 const minesLeftText = document.querySelector("[data-mine-count]")
@@ -36,8 +41,8 @@ function checkGameEnd() {
     messageText.textContent = "You Lose"
     board.forEach(row => {
       row.forEach(tile => {
-        if (tile.status === TILE_STATUSES.MARKED) markTile(tile)
-        if (tile.mine) revealTile(board, tile)
+        if (tile.status === TILE_STATUSES.MARKED) board = markTile(tile)
+        if (tile.mine) board = revealTile(board, tile)
       })
     })
   }
@@ -49,13 +54,13 @@ function stopProp(e) {
 
 function render() {
   boardElement.innerHTML = ""
+  checkGameEnd()
 
   getTileElements(board).forEach(element => {
     boardElement.append(element)
   })
 
   minesLeftText.textContent = NUMBER_OF_MINES - markedTilesCount(board)
-  checkGameEnd()
 }
 
 boardElement.addEventListener("click", e => {
