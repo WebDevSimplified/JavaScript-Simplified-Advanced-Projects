@@ -5,7 +5,7 @@ beforeEach(() => {
   try {
     fs.mkdirSync("accounts")
   } catch {
-    // There was already a directory with that name so just continue onward
+    // Ignore error since folder already exists
   }
 })
 
@@ -13,7 +13,7 @@ afterEach(() => {
   fs.rmSync("accounts", { recursive: true, force: true })
 })
 
-describe("#create", () => {
+describe(".create", () => {
   test("it creates a new account and file", async () => {
     const name = "Kyle"
     const account = await Account.create(name)
@@ -23,15 +23,7 @@ describe("#create", () => {
   })
 })
 
-describe("#find", () => {
-  describe("when there is no existing account", () => {
-    test("it return undefined", async () => {
-      const name = "Kyle"
-      const account = await Account.find(name)
-      expect(account).toBeUndefined()
-    })
-  })
-
+describe(".find", () => {
   test("it returns the account", async () => {
     const name = "Kyle"
     const balance = 10
@@ -39,5 +31,13 @@ describe("#find", () => {
     const account = await Account.find(name)
     expect(account.name).toBe(name)
     expect(account.balance).toBe(balance)
+  })
+
+  describe("when there is no existing account", () => {
+    test("it returns undefined", async () => {
+      const name = "Kyle"
+      const account = await Account.find(name)
+      expect(account).toBeUndefined()
+    })
   })
 })
