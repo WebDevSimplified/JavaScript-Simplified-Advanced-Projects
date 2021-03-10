@@ -1,0 +1,19 @@
+{
+  "name": "after",
+  "version": "1.0.0",
+  "description": "",
+  "main": "Calculator.js",
+  "scripts": {
+    "start": "serve",
+    "cy:open": "cypress open",
+    "test": "start-server-and-test start http://localhost:5000 cy:open"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "cypress": "^6.6.0",
+    "serve": "^11.3.2",
+    "start-server-and-test": "^1.12.0"
+  }
+}
