@@ -13,8 +13,8 @@ export function createBoard(boardSize, minePositions) {
       return {
         x,
         y,
-        status: TILE_STATUSES.HIDDEN,
         mine: minePositions.some(positionMatch.bind(null, { x, y })),
+        status: TILE_STATUSES.HIDDEN,
       }
     }, boardSize)
   }, boardSize)
@@ -59,20 +59,16 @@ export function revealTile(board, { x, y }) {
   }
 
   if (tile.mine) {
-    return replaceTile(board, tile, {
-      ...tile,
-      status: TILE_STATUSES.MINE,
-    })
+    return replaceTile(board, { x, y }, { ...tile, status: TILE_STATUSES.MINE })
   }
 
   const adjacentTiles = nearbyTiles(board, tile)
   const mines = adjacentTiles.filter(t => t.mine)
-  const newBoard = replaceTile(board, tile, {
-    ...tile,
-    status: TILE_STATUSES.NUMBER,
-    adjacentMinesCount: mines.length,
-  })
-
+  const newBoard = replaceTile(
+    board,
+    { x, y },
+    { ...tile, status: TILE_STATUSES.NUMBER, adjacentMinesCount: mines.length }
+  )
   if (mines.length === 0) {
     return adjacentTiles.reduce((b, t) => {
       return revealTile(b, t)
@@ -106,6 +102,17 @@ export function positionMatch(a, b) {
   return a.x === b.x && a.y === b.y
 }
 
+function replaceTile(board, position, newTile) {
+  return board.map((row, x) => {
+    return row.map((tile, y) => {
+      if (positionMatch(position, { x, y })) {
+        return newTile
+      }
+      return tile
+    })
+  })
+}
+
 function nearbyTiles(board, { x, y }) {
   const offsets = range(-1, 2)
 
@@ -115,14 +122,5 @@ function nearbyTiles(board, { x, y }) {
         return board[x + xOffset]?.[y + yOffset]
       })
     })
-    .filter(tile => tile)
-}
-
-function replaceTile(board, position, newTile) {
-  return board.map((row, x) => {
-    return row.map((tile, y) => {
-      if (positionMatch(position, { x, y })) return newTile
-      return tile
-    })
-  })
+    .filter(tile => tile != null)
 }
