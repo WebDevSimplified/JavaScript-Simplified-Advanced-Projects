@@ -155,15 +155,13 @@
       </tr>
       <tr class="hour-row">
         <td>
-          <td>
-            <div class="info-group">
-              <div class="label">Sunday</div>
-              <div>8AM</div>
-            </div>
-          </td>
-          <td>
-            <img class="weather-icon" src="http://openweathermap.org/img/wn/10d.png" />
-          </td>
+          <div class="info-group">
+            <div class="label">Sunday</div>
+            <div>8AM</div>
+          </div>
+        </td>
+        <td>
+          <img class="weather-icon" src="http://openweathermap.org/img/wn/10d.png" />
         </td>
         <td>
           <div class="info-group">
@@ -367,16 +365,17 @@
       </tr>
     </tbody>
   </table>
-  
-  <template data-day-card-template>
+
+
+  <template id="day-card-template">
     <div class="day-card">
-      <img class="weather-icon" src="http://openweathermap.org/img/wn/10d.png" data-icon>
+      <img class="weather-icon" data-icon src="http://openweathermap.org/img/wn/10d.png">
       <div class="day-card-date" data-date>Monday</div>
-      <div><span data-temp>21</span>&deg;</div>
+      <div><span data-temp>23</span>&deg;</div>
     </div>
   </template>
 
-  <template data-hour-row-template>
+  <template id="hour-row-template">
     <tr class="hour-row">
       <td>
         <div class="info-group">

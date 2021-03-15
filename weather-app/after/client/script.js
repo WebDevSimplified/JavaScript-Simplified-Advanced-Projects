@@ -15,9 +15,11 @@ function positionError() {
 
 function getWeather(lat, lon) {
   axios
-    .get(`http://localhost:3001/weather`, { params: { lat, lon } })
-    .then(({ data }) => {
-      renderWeather(data)
+    .get("http://localhost:3001/weather", {
+      params: { lat, lon },
+    })
+    .then(res => {
+      renderWeather(res.data)
     })
     .catch(e => {
       console.log(e)
@@ -32,25 +34,38 @@ function renderWeather({ current, daily, hourly }) {
   renderHourlyWeather(hourly)
 }
 
+function setValue(selector, value, { parent = document } = {}) {
+  parent.querySelector(`[data-${selector}]`).textContent = value
+}
+
+function getIconUrl(icon, { large = false } = {}) {
+  const size = large ? "@2x" : ""
+  return `http://openweathermap.org/img/wn/${icon}${size}.png`
+}
+
+function formatDay(timestamp) {
+  return format(new Date(timestamp), "eeee")
+}
+
+function formatTime(timestamp) {
+  return format(new Date(timestamp), "ha")
+}
+
 const currentIcon = document.querySelector("[data-current-icon]")
 function renderCurrentWeather(current) {
+  currentIcon.src = getIconUrl(current.icon, { large: true })
   setValue("current-temp", current.currentTemp)
-  setValue("current-description", current.description)
   setValue("current-high", current.highTemp)
   setValue("current-low", current.lowTemp)
   setValue("current-fl-high", current.highFeelsLike)
   setValue("current-fl-low", current.lowFeelsLike)
   setValue("current-wind", current.windSpeed)
   setValue("current-precip", current.precip)
-  currentIcon.src = getIconUrl(current.icon, { large: true })
-}
-
-function setValue(selector, value, { parent = document } = {}) {
-  parent.querySelector(`[data-${selector}]`).textContent = value
+  setValue("current-description", current.description)
 }
 
 const dailySection = document.querySelector("[data-day-section]")
-const dayCardTemplate = document.querySelector("[data-day-card-template]")
+const dayCardTemplate = document.getElementById("day-card-template")
 function renderDailyWeather(daily) {
   dailySection.innerHTML = ""
   daily.forEach(day => {
@@ -63,7 +78,7 @@ function renderDailyWeather(daily) {
 }
 
 const hourlySection = document.querySelector("[data-hour-section]")
-const hourRowTemplate = document.querySelector("[data-hour-row-template]")
+const hourRowTemplate = document.getElementById("hour-row-template")
 function renderHourlyWeather(hourly) {
   hourlySection.innerHTML = ""
   hourly.forEach(hour => {
@@ -73,21 +88,8 @@ function renderHourlyWeather(hourly) {
     setValue("wind", hour.windSpeed, { parent: element })
     setValue("precip", hour.precip, { parent: element })
     setValue("day", formatDay(hour.timestamp), { parent: element })
-    setValue("time", formatHour(hour.timestamp), { parent: element })
+    setValue("time", formatTime(hour.timestamp), { parent: element })
     element.querySelector("[data-icon]").src = getIconUrl(hour.icon)
     hourlySection.append(element)
   })
-}
-
-function getIconUrl(icon, { large = false } = {}) {
-  const size = large ? "@2x" : ""
-  return `http://openweathermap.org/img/wn/${icon}${size}.png`
-}
-
-function formatDay(timestamp) {
-  return format(new Date(timestamp), "eeee")
-}
-
-function formatHour(timestamp) {
-  return format(new Date(timestamp), "ha")
 }
