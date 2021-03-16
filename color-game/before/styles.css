@@ -1,0 +1,72 @@
+body {
+  font-family: sans-serif;
+}
+
+.title, .color-string {
+  text-align: center;
+  margin: .5rem;
+}
+
+.title {
+  color: #777;
+}
+
+.form {
+  display: flex;
+}
+
+.form fieldset {
+  flex-grow: 1;
+  text-align: center;
+}
+
+.radio-group {
+  display: grid;
+  justify-content: center;
+  justify-items: flex-start;
+  grid-template-columns: auto auto;
+  gap: .25rem;
+}
+
+.radio-group > * {
+  cursor: pointer;
+}
+
+.color-grid {
+  display: grid;
+  gap: .5rem;
+  justify-content: center;
+  max-width: 16rem;
+  margin: auto;
+  padding: .5rem;
+  grid-template-columns: repeat(auto-fill, 5rem);
+  grid-auto-rows: 5rem;
+}
+
+.color-grid > * {
+  border-radius: .5rem;
+  border: 1px solid black;
+  padding: 0;
+  margin: 0;
+}
+
+.color-grid > :disabled {
+  cursor: default;
+}
+
+.color-grid > .wrong {
+  opacity: .3;
+}
+
+.results {
+  text-align: center;
+  font-size: 1.5rem;
+}
+
+.results.hide {
+  display: none;
+}
+
+button {
+  cursor: pointer;
+}

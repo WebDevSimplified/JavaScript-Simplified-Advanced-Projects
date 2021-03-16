@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
+  <title>Color Game</title>
+</head>
+<body>
+  <header class="header">
+    <h2 class="title">Color Game</h2>
+    <h3 class="color-string">rgb(255, 0, 0)</h3>
+    <form class="form">
+      <fieldset>
+        <legend>Format</legend>
+        <div class="radio-group">
+          <input type="radio" name="format" id="rgb" checked>
+          <label for="rgb">RGB</label>
+          <input type="radio" name="format" id="hex">
+          <label for="hex">Hex</label>
+          <input type="radio" name="format" id="hsl">
+          <label for="hsl">HSL</label>
+        </div>
+      </fieldset>
+      <fieldset>
+        <legend>Difficulty</legend>
+        <div class="radio-group">
+          <input type="radio" name="difficulty" id="easy" checked>
+          <label for="easy">Easy</label>
+          <input type="radio" name="difficulty" id="medium">
+          <label for="medium">Medium</label>
+          <input type="radio" name="difficulty" id="hard">
+          <label for="hard">Hard</label>
+        </div>
+      </fieldset>
+    </form>
+  </header>
+  <div class="color-grid">
+    <button class="wrong" disabled style="background-color: blue;"></button>
+    <button disabled style="background-color: red;"></button>
+    <button class="wrong" disabled style="background-color: green;"></button>
+    <button class="wrong" disabled style="background-color: yellow;"></button>
+    <button class="wrong" disabled style="background-color: purple;"></button>
+    <button class="wrong" disabled style="background-color: grey;"></button>
+  </div>
+  <div class="results">
+    <div>Correct</div>
+    <button>Next Color</button>
+  </div>
+</body>
+</html>
