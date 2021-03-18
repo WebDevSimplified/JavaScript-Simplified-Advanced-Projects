@@ -12,7 +12,7 @@ export default class Hsl {
   }
 
   static generate() {
-    return new Hsl(
+    return new this(
       randomNumber({ max: MAX_HUE_VALUE }),
       randomNumber({ max: MAX_SATURATION_VALUE }),
       randomNumber({ max: MAX_LIGHTNESS_VALUE })
@@ -20,7 +20,7 @@ export default class Hsl {
   }
 
   generateSimilar(options) {
-    return new Hsl(
+    return new this.constructor(
       randomValueInRange({
         startingValue: this.h,
         maxCutoff: MAX_HUE_VALUE,
